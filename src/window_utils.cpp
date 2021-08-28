@@ -1,7 +1,10 @@
+#ifdef __WIN32
+
+#include <stdio.h>
 #include "windows_utils.h"
 
 
-Vec2 MousePos()
+Vec2 Mouse::Pos()
 {
     Vec2 pos;
     POINT cursorPos;
@@ -13,32 +16,45 @@ Vec2 MousePos()
     return pos;
 }
 
-void ClickAt(const Vec2 pos, unsigned int button)
+void Mouse::ClickAt(const Vec2 pos, unsigned int button)
 {
-    SetCursorPos(pos.x, pos.y);
-    mouse_event(LEFT_DOWN, pos.x, pos.y, 0, 0);
-    mouse_event(LEFT_UP, pos.x, pos.y, 0, 0);
+    MoveTo(pos);
+    Click(button);
 }
 
-void Click(unsigned int button)
+void Mouse::Click(unsigned int button)
 {
     Vec2 pos = MousePos();
-    mouse_event(LEFT_DOWN, pos.x, pos.y, 0, 0);
-    mouse_event(LEFT_UP, pos.x, pos.y, 0, 0);
+    if(button == LEFT)
+    {
+        mouse_event(LEFT_DOWN, pos.x, pos.y, 0, 0);
+        mouse_event(LEFT_UP, pos.x, pos.y, 0, 0);
+    }
+    else if(button == RIGHT)
+    {
+        mouse_event(RIGHT_DOWN, pos.x, pos.y, 0, 0);
+        mouse_event(RIGHT_UP, pos.x, pos.y, 0, 0);
+    }
+    else
+    {
+        printf("Unknown button in Mouse::Click\n");
+    }
 }
 
-void Move(const Vec2 dpos)
+void Mouse::Move(const Vec2 dpos)
 {
-    Vec2 curPos = MousePos();
+    Vec2 curPos = Pos();
     SetCursorPos(curPos.x + dpos.x, curPos.y + dpos.y);
 }
 
-void MoveTo(const Vec2 pos)
+void Mouse::MoveTo(const Vec2 pos)
 {
     SetCursorPos(pos.x, pos.y);
 }
 
-void SleepMS(unsigned int ms)
+void Mouse::SleepMS(unsigned int ms)
 {
     Sleep(ms);
 }
+
+#endif

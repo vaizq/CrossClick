@@ -9,8 +9,11 @@
 
 #include "common.h"
 
-constexpr unsigned int LEFT_CLICK = Button1;
-constexpr unsigned int RIGHT_CLICK = Button2; // Not sure about this
+namespace Mouse
+{
+constexpr unsigned int LEFT = Button1;
+constexpr unsigned int RIGHT = Button2; // Not sure about this
+}
 // Mouse wheel stuff is button3..5
 
 
@@ -20,11 +23,13 @@ extern Display* display;
 
 #define LINUX_BEGIN() Display* display; 
 #define LINUX_SETUP() display=XOpenDisplay(NULL);if(display == NULL){printf("Can't open display.");return-1;}
-// if((display = XOpenDisplay(NULL)) == NULL) { printf("Can't open display"); return -1; }
+#define LINUX_END() XCloseDisplay(display);
 
+namespace Mouse
+{
 
 // Returns current mouse pointer position
-Vec2 MousePos();
+Vec2 Pos();
 
 // Clicks specified button at specified position
 void ClickAt(const Vec2 pos, unsigned int button);
@@ -41,5 +46,6 @@ void MoveTo(const Vec2 pos);
 // Sleep ms milliseconds
 void SleepMS(unsigned int ms);
 
+}
 
 #endif

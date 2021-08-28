@@ -1,8 +1,10 @@
+#ifdef __linux__
+
 #include "linux_utils.h"
 
 #include <iostream>
 
-Vec2 MousePos()
+Vec2 Mouse::Pos()
 {
     Vec2 pos;
 
@@ -19,7 +21,7 @@ Vec2 MousePos()
 }
 
 
-void Click(unsigned int button)
+void Mouse::Click(unsigned int button)
 {
     // Create and setting up the event
     XEvent event;
@@ -36,12 +38,11 @@ void Click(unsigned int button)
              &event.xbutton.x, &event.xbutton.y,
              &event.xbutton.state);
     }
-
     // Press
     event.type = ButtonPress;
     if (XSendEvent (display, PointerWindow, True, ButtonPressMask, &event) == 0)
     {
-        fprintf (stderr, "Error to send the event!\n");
+        fprintf (stderr, "Error to send button press event!\n");
     }
     XFlush (display);
     usleep (100);
@@ -49,33 +50,33 @@ void Click(unsigned int button)
     event.type = ButtonRelease;
     if (XSendEvent (display, PointerWindow, True, ButtonReleaseMask, &event) == 0)
     {
-        fprintf (stderr, "Error to send the event!\n");
+        fprintf (stderr, "Error to send the button release event!\n");
     }
     XFlush (display);
     usleep (1);
 }
 
-void Move(const Vec2 dpos)
+void Mouse::Move(const Vec2 dpos)
 {
     XWarpPointer (display, None, None, 0,0,0,0, dpos.x, dpos.y);
     XFlush (display);
     usleep (1);
 }
 
-void MoveTo(const Vec2 pos)
+void Mouse::MoveTo(const Vec2 pos)
 {
-    Vec2 curPos = MousePos();
+    Vec2 curPos = Pos();
     XWarpPointer (display, None, None, 0,0,0,0,
             pos.x - curPos.x, pos.y - curPos.y);
     XFlush (display);
     usleep (1);
 }
 
-void SleepMS(unsigned int ms)
+void Mouse::SleepMS(unsigned int ms)
 {
     usleep(1000 * ms);
 }
 
-
+#endif
 
 

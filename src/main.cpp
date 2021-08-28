@@ -22,21 +22,13 @@ int main(int argc, char** argv)
     LINUX_SETUP()
 #endif
 
-    Vec2 velo{ 10, 10 };
-
     while(1)
     {
-        if(MousePos().x < 100)
-            velo.x = 10;
-        if(MousePos().x > 1700)
-            velo.x = -10;
-        if(MousePos().y < 100)
-            velo.y = 10;
-        if(MousePos().y > 1000)
-            velo.y = -10;
-        Move(velo);
-        SleepMS(10);
+        Mouse::Click(Mouse::LEFT);
+        Mouse::SleepMS(1000);    
     }
-    XCloseDisplay(display);
+#ifdef OS_Linux
+    LINUX_END() 
+#endif
     return 0;
 }
