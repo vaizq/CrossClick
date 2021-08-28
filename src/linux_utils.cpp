@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Vec2 MousePos(Display* display)
+Vec2 MousePos()
 {
     Vec2 pos;
 
@@ -19,7 +19,7 @@ Vec2 MousePos(Display* display)
 }
 
 
-void Click(Display* display, unsigned int button)
+void Click(unsigned int button)
 {
     // Create and setting up the event
     XEvent event;
@@ -55,16 +55,16 @@ void Click(Display* display, unsigned int button)
     usleep (1);
 }
 
-void Move(Display* display, const Vec2 dpos)
+void Move(const Vec2 dpos)
 {
     XWarpPointer (display, None, None, 0,0,0,0, dpos.x, dpos.y);
     XFlush (display);
     usleep (1);
 }
 
-void MoveTo(Display* display, const Vec2 pos)
+void MoveTo(const Vec2 pos)
 {
-    Vec2 curPos = MousePos(display);
+    Vec2 curPos = MousePos();
     XWarpPointer (display, None, None, 0,0,0,0,
             pos.x - curPos.x, pos.y - curPos.y);
     XFlush (display);

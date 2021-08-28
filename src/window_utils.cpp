@@ -16,15 +16,15 @@ Vec2 MousePos()
 void ClickAt(const Vec2 pos, unsigned int button)
 {
     SetCursorPos(pos.x, pos.y);
-    mouse_event(LEFT_DOWN, pos.x, pos.y);
-    mouse_event(LEFT_UP, pos.x, pos.y);
+    mouse_event(LEFT_DOWN, pos.x, pos.y, 0, 0);
+    mouse_event(LEFT_UP, pos.x, pos.y, 0, 0);
 }
 
 void Click(unsigned int button)
 {
     Vec2 pos = MousePos();
     mouse_event(LEFT_DOWN, pos.x, pos.y, 0, 0);
-    mouse_event(LEFT_UP, pos.x, pos.y);
+    mouse_event(LEFT_UP, pos.x, pos.y, 0, 0);
 }
 
 void Move(const Vec2 dpos)
